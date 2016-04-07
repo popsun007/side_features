@@ -1,3 +1,5 @@
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 <?php
 /*--------------------BEGINNING OF THE CONNECTION PROCESS------------------*/
 //define constants for db_host, db_user, db_pass, and db_database
@@ -5,9 +7,15 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', 'root'); //set DB_PASS as 'root' if you're using mac
-define('DB_DATABASE', 'world'); //make sure to set your database
+define('DB_DATABASE', 'db'); //make sure to set your database
 //connect to database host
-$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+$connection = @mysql_connect(DB_HOST, DB_USER, DB_PASS);
+@mysql_select_db("usmall") or die('unable to select'.mysql_error());
+
+$set_charset = 'SET CHARACTER SET utf8'; 
+mysql_query($set_charset);
+mysql_query('SET NAMES "utf8"');
+
 
 /*-------------------------END OF CONNECTION PROCESS!---------------------*/
 
@@ -28,13 +36,13 @@ function fetch($query)
 {
 	global $connection;
 
-	$result = mysqli_query($connection, $query);
+	$result = mysql_query($query);
+	$res_num = mysql_num_rows($result);
 	$rows = array();
 
-	foreach($result as $row) {
-		$rows[] = $row;
+	for($i = 0; $i < $res_num; $i++){
+		$rows[] = mysql_fetch_assoc($result);
 	}
-
 	return $rows;
 }
 
@@ -46,14 +54,15 @@ function fetch($query)
 function run_mysql_query($query)
 {
 	global $connection;
+	mysql_query('SET NAMES "utf8"');
 
-	$result = mysqli_query($connection, $query);
+	$result = mysql_query($query) or die(mysql_error());
 
 	//Check if query is an 'insert' query
 	if(preg_match("/insert/i", $query))
 	{
 		// Returns an id (int)
-		return mysqli_insert_id($connection);
+		return mysql_insert_id($connection);
 	}
 
 	// Returns boolean (true/false) if query is update or delete
