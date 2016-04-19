@@ -2,6 +2,16 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<title>Toggle Menu</title>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		alert("ahah");
+	    $("#mmenu").hide();
+	    $(".mtoggle").click(function() {
+	        $("#mmenu").slideToggle(500);
+	    });
+	});
+	</script>
 
 </head>
 <body>
