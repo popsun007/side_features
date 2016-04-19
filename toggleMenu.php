@@ -5,10 +5,11 @@
 	<title>Toggle Menu</title>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-		alert("ahah");
+
 	    $("#mmenu").hide();
 	    $(".mtoggle").click(function() {
 	        $("#mmenu").slideToggle(500);
+	        return false;
 	    });
 	});
 	</script>
